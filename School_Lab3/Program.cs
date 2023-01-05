@@ -1,9 +1,4 @@
-﻿using School_Lab3.Models;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-
-namespace School_Lab3
+﻿namespace School_Lab3
 {
     internal class Program
     {
@@ -14,33 +9,98 @@ namespace School_Lab3
 
 
         }
+        // Lab 4
+        // Uppgift 1
 
-        //Sql Kolla alla personal
+        // Översikt av personal
+        /*
+        Select concat(Fname,' ', Lname) As Name, WorkTitle, DATEDIFF(year, HiredDate, '2022-12-20') As Years  From Employee
+        Join Title on TitleId = FK_TitleId
+        join SubjectSchool on SubjectSchoolId = FK_SchoolSubjectId
+        --Where WorkTitle = 'Nurse'-- Principal, Nurse, Janitor, Additional_Staff
+        order by Years DESC;
+        */
 
-        //Select concat(Fname,' ', Lname) As Name, WorkTitle, Lesson From Employee
-        //Join Title on TitleId = FK_TitleId
-        //join SubjectSchool on SubjectSchoolId = FK_SchoolSubjectId
-        //Where WorkTitle = 'Teacher'       -- Principal, Nurse, Janitor, Additional_Staff
+        // Lägga till anställda
 
-        //Sql Kolla alla Betyg för den senaste månaden
+        /*
+        Insert into Employee (FName,LName,DateOfBirth,HiredDate,PhoneNr,Sex)
+        Values('Noomi','Rapace','1968-04-04','2023-01-02','070-2848787','F') 
+        */
 
-        //Select concat(Student.Fname,' ', Student.LName) As Student, DateOfGrade, GivenGrade, Lesson, concat (Employee.FName, ' ', Employee.LName) As Teacher From Grade
-        //Join Student on StudentId = FK_StudentId
-        //join Employee on EmployeeId = FK_EmployeeId
-        //join SubjectSchool on SubjectSchoolId = FK_SchoolSubjectId
-        //Where DateOfGrade Between '2022-12-01' and '2022-12-31'
 
-        //Sql Kollar på alla snittbetyg
+        // Uppgift 2
+        // Elevens betyg och vilken lärare som satt betygen och datum alla elever
+        /*
+         Select concat (Student.Fname,' ', Student.LName) As Student,Class, DateOfGrade, GivenGrade, Lesson ,concat (Employee.FName, ' ' ,Employee.LName) As Teacher From Grade
+        Join Student on StudentId = FK_StudentId
+        join Employee on EmployeeId = FK_EmployeeId
+        join SubjectSchool on SubjectSchoolId = FK_SchoolSubjectId
+        join Class on ClassId = FK_ClassId
+        order by Class  ASC 
+        */
 
-        //Select Lesson, max(GivenGrade)' Högsta', min(GivenGrade)'Minsta', Avg(GivenGrade)'Snitt Betyg' From Grade
-        //Join SubjectSchool on SubjectSchoolId = FK_EmployeeId
-        //Group By Lesson
+        // Specifik elevs betyg
+        /*
+         Select concat (Student.Fname,' ', Student.LName) As Student,Class, DateOfGrade, GivenGrade, Lesson ,concat (Employee.FName, ' ' ,Employee.LName) As Teacher From Grade
+        Join Student on StudentId = FK_StudentId
+        join Employee on EmployeeId = FK_EmployeeId
+        join SubjectSchool on SubjectSchoolId = FK_SchoolSubjectId
+        join Class on ClassId = FK_ClassId
+        where Student.FName = 'Hedvig'
+        */
 
-        //Sql Lägga till student
+        // Vilken klass eleven går i
+        /*
+         select CONCAT (Student.Fname, ' ' , Student.LName) As Name ,Class From  Student
+        Join Class on ClassId = FK_ClassId
+        where FName = 'Lena'
+        */
 
-        //insert into Student(FK_ClassId, FName, LName, DateOfBirth, PhoneNr, Sex)
-        //Values(5,'Cher','Meatloaf','2004-01-07',0702569958,'A');
-    }
+
+        // Uppgift 6 och 7
+        // Total lön på varje avdelning
+        /*
+         Select  SUM(Wage) AS Total_Wage, WorkTitle From Employee
+        join Title on TitleId = FK_TitleId
+        group by WorkTitle
+        order by Total_Wage DESC
+        */
+
+        // Medellön på alla avdelningar
+        /*
+         Select  Avg(Wage) AS Average_Wage,WorkTitle From Employee
+        join Title on TitleId = FK_TitleId
+        group by WorkTitle
+        order by Average_Wage DESC 
+        */
+
+
+        // Uppgift 9 Transaction
+        /*
+         Begin Transaction Grade1 
+        Begin Try
+
+        update Grade
+        set GivenGrade = 5, DateOfGrade = GETDATE()
+        where GradeId = 1
+
+        Commit Transaction Grade1
+        End Try
+
+        Begin Catch
+        Rollback Transaction Grade1
+
+        End Catch
+
+        --select * from Grade
+        */
+
+
+
+
+
+}
 }
 
 
